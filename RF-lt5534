@@ -1,0 +1,92 @@
+/* Sample behaviour code of attiny84 along and RFsensor of lt543, compares every reading to the one before. 
+LEDs are assigned as out put for values of +1 and up to +5, another for a constant reading, and another for decrease. 
+LED naming corresponds to pinout and values.Stores only one value: All values are compared to one value before.
+ 
+code is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+
+*/
+ 
+int analogIn = 0;
+int analogValue = 0;
+ 
+int oldValue = 0;
+int newValue = 0;
+ 
+int led7= 7;  //one value down -blue
+int led1 = 1;  //+1 white
+int led2 = 2; //+2 yellowish
+int led3 = 3; // +3 yellow
+int led4= 4; // +4 orange
+int led5 = 5; // 5+ red
+int led6= 6; // constant -green
+ 
+  
+ 
+void setup(){
+Serial.begin(57600);
+ 
+pinMode(led1, OUTPUT);
+pinMode(led2, OUTPUT);
+pinMode(led3, OUTPUT);
+pinMode(led4, OUTPUT);
+pinMode(led5, OUTPUT);
+pinMode(led6, OUTPUT);
+pinMode(led7, OUTPUT);
+ 
+}
+ 
+void loop(){
+ 
+analogValue=0;
+ 
+if (analogIn > analogValue)
+analogValue=analogIn;
+ 
+oldValue = newValue; //it stores only 1 previous reading. So everynew reading is new compared to old.
+newValue = analogRead(analogIn);
+ 
+if (newValue == oldValue +1){
+digitalWrite(led1, 1);
+delay(50); //time for the LED to be switched on
+digitalWrite(led1, 0);
+}
+ 
+else if (newValue == oldValue +2){
+digitalWrite(led2, 1);
+delay(50);
+digitalWrite(led2, 0);
+}
+ 
+else if (newValue == oldValue +3){
+digitalWrite(led3, 1);
+delay(50);
+digitalWrite(led3, 0);
+ 
+}
+ 
+else if (newValue == oldValue +4){
+digitalWrite(led4, 1);
+delay(50);
+digitalWrite(led4, 0);
+}
+ 
+else if (newValue > oldValue+4) {
+digitalWrite(led5, 1);
+delay(100);
+digitalWrite(led5, 0);
+ 
+}
+ 
+else if (newValue == oldValue) {
+digitalWrite(led6, 1);
+delay(100);
+digitalWrite(led6, 0)
+ 
+}
+ 
+else if (newValue == oldValue -1) {
+digitalWrite(led7, 1);
+delay(100);
+digitalWrite(led7, 0)
+ 
+}
